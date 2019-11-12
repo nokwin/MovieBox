@@ -38,7 +38,6 @@ class MovieDetails extends React.Component {
     );
     return genresNames.join(", ");
   };
-
   render() {
     const { movie, loading, isFavorite } = this.props;
     const bgPoster = {
@@ -137,7 +136,4 @@ const mapDispatchToProps = dispatch =>
     },
     dispatch
   );
-export default connect(
-  makeMapStateToProps,
-  mapDispatchToProps
-)(MovieDetails);
+export default connect(makeMapStateToProps, mapDispatchToProps)(MovieDetails);
