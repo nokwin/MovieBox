@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createStructuredSelector } from "reselect";
 import { bindActionCreators } from "redux";
-
+// import { observable, configure, action, when, autorun } from "mobx";
+import { observer } from "mobx-react";
 import "./App.css";
 import AppFooter from "./components/app-footer";
 import NowPlayingPage from "./components/pages/now-playing-page";
@@ -15,6 +16,8 @@ import { makeSelectGenres } from "./selectors/genres-selector";
 import { fetchGenres } from "./actions/genres-actions";
 
 // ?@decorator
+
+@observer
 class App extends React.Component {
   componentDidMount() {
     const { getGenres } = this.props;
