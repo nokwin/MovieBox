@@ -6,6 +6,7 @@ const {
   GENRES_SUCCESS,
   GENRES_FAILURE
 } = Constants;
+
 export const fetchGenresRequest = () => ({
   type: GENRES_REQUEST
 });
