@@ -1,10 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
+
 import PropTypes from "prop-types";
-import { createStructuredSelector } from "reselect";
-import { bindActionCreators } from "redux";
-import { observable, configure, action, decorate } from "mobx";
+
+import { observable, configure, action, decorate, toJS } from "mobx";
 import { observer } from "mobx-react";
 
 import "./App.css";
@@ -13,21 +12,17 @@ import NowPlayingPage from "./components/pages/now-playing-page";
 import MoviePage from "./components/pages/movie-page";
 import FavoriteMoviePage from "./components/pages/favorite-movie-page";
 import Page404 from "./components/pages/page-404";
-import { makeSelectGenres } from "./selectors/genres-selector";
-import { fetchGenres } from "./actions/genres-actions";
-
-// ?@decorator
 
 @observer
 class App extends React.Component {
   componentDidMount() {
-    const { appStore } = this.props;
-    appStore.getGenres();
-    // const { getGenres } = this.props;
-    // getGenres();
+    const { genresStore } = this.props;
+    genresStore.fetchGenres();
   }
 
   render() {
+    const loading = toJS(this.props.genresStore.loading);
+    console.log("loading", loading);
     return (
       <Router>
         <div className="app">
@@ -44,20 +39,5 @@ class App extends React.Component {
     );
   }
 }
-App.propTypes = {
-  getGenres: PropTypes.func.isRequired
-};
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getGenres: fetchGenres
-    },
-    dispatch
-  );
-const mapStateToProps = createStructuredSelector({
-  genres: makeSelectGenres()
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+
+export default App;

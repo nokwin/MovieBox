@@ -1,25 +1,18 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { bindActionCreators } from "redux";
 
 import "./movie-details.css";
-import makeMapStateToProps from "../../selectors/movie-details-selectors";
-import {
-  fetchMovie,
-  addFavorite,
-  removeFavorite
-} from "../../actions/movie-details-actions";
 import defaultImg from "../movie-card/default_img.png";
 import Spinner from "../spinner";
+import movieStore from "../../store/mobx-store-movie";
 
 class MovieDetails extends React.Component {
   componentDidMount() {
-    const { id, getMovie } = this.props;
-    getMovie(id);
+    const { id } = this.props;
+    movieStore.fetchMovie(id);
   }
 
   addFavoriteHandler = () => {
@@ -40,13 +33,16 @@ class MovieDetails extends React.Component {
   };
 
   render() {
-    const { movie, loading, isFavorite } = this.props;
+    const { isFavorite } = this.props;
+    const { movieLoading } = movieStore.loading;
+    const movie = movieStore.getMovie();
+    console.log("MOVIE", movie);
     const bgPoster = {
       backgroundImage: ` linear-gradient(to bottom, rgba(255, 255, 255,0.1), rgba(0, 0, 0,0.9) 95% )
             ,url(http://image.tmdb.org/t/p/w500${movie && movie.backdropPath}`
     };
 
-    if (loading) {
+    if (movieLoading) {
       return <Spinner />;
     }
 
@@ -62,7 +58,7 @@ class MovieDetails extends React.Component {
               <h1>{movie.title}</h1>
               <div className="about">
                 <span>{moment(movie.releaseDate, "YYYY/MM/DD").year()} </span>
-                <span>{this.getCategoryFilmString(movie.genres)}</span>
+                <span>GENRES</span>
               </div>
             </div>
             <div className="container">
@@ -128,16 +124,5 @@ MovieDetails.defaultProps = {
   loading: true,
   movie: null
 };
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getMovie: fetchMovie,
-      addFav: addFavorite,
-      removeFav: removeFavorite
-    },
-    dispatch
-  );
-export default connect(
-  makeMapStateToProps,
-  mapDispatchToProps
-)(MovieDetails);
+
+export default MovieDetails;

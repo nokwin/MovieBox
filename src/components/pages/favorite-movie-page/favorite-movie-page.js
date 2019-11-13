@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ReactRouterPropTypes from "react-router-prop-types";
 
@@ -78,9 +77,5 @@ FavoriteMoviePage.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   match: ReactRouterPropTypes.match.isRequired
 };
-const mapStateToProps = state => {
-  return {
-    favorites: state.films.favorites
-  };
-};
-export default connect(mapStateToProps)(FavoriteMoviePage);
+
+export default FavoriteMoviePage;

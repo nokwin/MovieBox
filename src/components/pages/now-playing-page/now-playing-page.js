@@ -1,45 +1,46 @@
 import React from "react";
 
 import "./now-playing-page.css";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ReactRouterPropTypes from "react-router-prop-types";
-import { bindActionCreators } from "redux";
+import { observable, configure, action, decorate } from "mobx";
+import { observer } from "mobx-react";
+import filmsStore from "../../../store/mobx-store-films";
 
-import { fetchFilms } from "../../../actions/now-playing-page-actions";
 import MovieGrid from "../../movie-grid/movie-grid";
 import Spinner from "../../spinner";
 import Pagination from "../../pagination";
 import AppHeader from "../../app-header";
 
+@observer
 class NowPlayingPage extends React.Component {
   componentDidMount() {
-    const { getFilms, match } = this.props;
+    const { match } = this.props;
     const { page } = match.params;
-    getFilms(page);
+    filmsStore.fetchFilms(page);
   }
 
   changePage = e => {
-    const { history, getFilms } = this.props;
+    const { history } = this.props;
     const { selected } = e;
     const page = selected + 1;
     history.push(`/page/${page}`);
-    getFilms(page);
+    filmsStore.fetchFilms(page);
   };
 
   render() {
-    const { loading, films, pages, match } = this.props;
+    const { match } = this.props;
+    const { filmsLoading } = filmsStore.loading;
     const { page } = match.params;
-    if (loading) {
+    if (filmsLoading) {
       return <Spinner />;
     }
     return (
       <>
         <AppHeader />
-        <MovieGrid films={films} />
+        <MovieGrid films={filmsStore.getFilms()} />
         <Pagination
           initialPage={Number(page) || 1}
-          pageCount={pages}
           changePage={this.changePage}
         />
       </>
@@ -47,16 +48,7 @@ class NowPlayingPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    films: state.films.results,
-    loading: state.films.loading,
-    pages: state.films.total_pages
-  };
-};
-
 NowPlayingPage.propTypes = {
-  getFilms: PropTypes.func.isRequired,
   films: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -75,14 +67,5 @@ NowPlayingPage.defaultProps = {
   pages: 1,
   films: []
 };
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getFilms: fetchFilms
-    },
-    dispatch
-  );
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NowPlayingPage);
+
+export default NowPlayingPage;

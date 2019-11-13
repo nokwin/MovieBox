@@ -1,11 +1,14 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import { observable, decorate, action, toJS } from "mobx";
 
 import "./movie-grid.css";
 import MovieCard from "../movie-card";
+import GenresStore from "../../store/mobx-store-genres";
 
+@observer
 class MovieGrid extends React.Component {
   displayFilms = movie => {
     const {
@@ -13,11 +16,11 @@ class MovieGrid extends React.Component {
       voteAverage,
       posterPath,
       id,
-      genres = [],
       releaseDate,
       genreIds = 0
     } = movie;
-
+    const { genres } = GenresStore;
+    console.log("FEFE", toJS(genres));
     return (
       <MovieCard
         title={title}
@@ -58,10 +61,5 @@ MovieGrid.propTypes = {
 MovieGrid.defaultProps = {
   films: []
 };
-const mapStateToProps = state => {
-  return {
-    genres: state.genres
-  };
-};
 
-export default withRouter(connect(mapStateToProps)(MovieGrid));
+export default withRouter(MovieGrid);
