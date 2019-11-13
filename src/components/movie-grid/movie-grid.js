@@ -19,19 +19,21 @@ class MovieGrid extends React.Component {
       releaseDate,
       genreIds = 0
     } = movie;
-    const { genres } = GenresStore;
-    console.log("FEFE", toJS(genres));
-    return (
-      <MovieCard
-        title={title}
-        rate={voteAverage}
-        poster={posterPath}
-        id={id}
-        type={genreIds || genres.map(genre => genre.id)}
-        year={releaseDate}
-        key={id}
-      />
-    );
+    const genres = GenresStore.getGenres();
+    const { loading } = GenresStore;
+    if (!loading) {
+      return (
+        <MovieCard
+          title={title}
+          rate={voteAverage}
+          poster={posterPath}
+          id={id}
+          type={genreIds || genres.map(genre => genre.id)}
+          year={releaseDate}
+          key={id}
+        />
+      );
+    }
   };
 
   render() {

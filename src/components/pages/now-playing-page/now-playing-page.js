@@ -30,9 +30,9 @@ class NowPlayingPage extends React.Component {
 
   render() {
     const { match } = this.props;
-    const { filmsLoading } = filmsStore.loading;
+    const { loading } = filmsStore;
     const { page } = match.params;
-    if (filmsLoading) {
+    if (loading) {
       return <Spinner />;
     }
     return (
@@ -59,11 +59,9 @@ NowPlayingPage.propTypes = {
   ),
   pages: PropTypes.number,
   match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
-  loading: PropTypes.bool
+  history: ReactRouterPropTypes.history.isRequired
 };
 NowPlayingPage.defaultProps = {
-  loading: true,
   pages: 1,
   films: []
 };

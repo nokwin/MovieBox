@@ -4,12 +4,15 @@ import moment from "moment";
 
 import "./movie-card.css";
 import MovieCardImage from "./movie-card-image";
+import GenresStore from "../../store/mobx-store-genres";
 
-const MovieCard = ({ poster, id, title, rate, type, year, genres }) => {
+const MovieCard = ({ poster, id, title, rate, type, year }) => {
   const movieYear = moment(year, "YYYY/MM/DD").year();
-  /*   const movieGenres = genres.filter(item => type.includes(item.id));
+  const genres = GenresStore.getGenres();
+
+  const movieGenres = genres.filter(item => type.includes(item.id));
   const genresNames = movieGenres.map(item => item.name);
-  const genresString = genresNames.join(", "); */
+  const genresString = genresNames.join(", ");
 
   return (
     <div className=" col-6 col-lg-3 d-flex flex-column justify-content-end align-items-center">
@@ -18,6 +21,7 @@ const MovieCard = ({ poster, id, title, rate, type, year, genres }) => {
         <div className="movie__about">
           <h2 className="movie__name">{title}</h2>
           <span className="movie__type" />
+          {genresString}
         </div>
         <div className="movie__rate">{rate}</div>
       </div>
@@ -30,13 +34,7 @@ MovieCard.propTypes = {
   year: PropTypes.string.isRequired,
   rate: PropTypes.number.isRequired,
   poster: PropTypes.string,
-  type: PropTypes.arrayOf(PropTypes.number).isRequired,
-  genres: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string
-    })
-  ).isRequired
+  type: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 MovieCard.defaultProps = {
   poster: null
