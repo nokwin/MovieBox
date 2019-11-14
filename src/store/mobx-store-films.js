@@ -21,16 +21,11 @@ class FilmsStore {
       return e;
     }
   };
-
-  getFilms = () => {
-    return toJS(this.results);
-  };
 }
-
 decorate(FilmsStore, {
   films: observable,
   loading: observable,
-  fetchFilms: action.bound
+  fetchFilms: action
 });
 const filmsStore = new FilmsStore();
 export default filmsStore;

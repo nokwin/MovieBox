@@ -3,29 +3,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { toJS } from "mobx";
 
 import "./movie-details.css";
+import { observer } from "mobx-react";
 import defaultImg from "../movie-card/default_img.png";
 import Spinner from "../spinner";
 import movieStore from "../../store/mobx-store-movie";
-import { observer } from "mobx-react";
 
 @observer
 class MovieDetails extends React.Component {
   componentDidMount() {
+    movieStore.loading = true;
     const { id } = this.props;
     movieStore.fetchMovie(id);
   }
 
   addFavoriteHandler = () => {
-    const { addFavorite, getMovie } = movieStore;
-    addFavorite(getMovie());
+    const { addFavorite } = movieStore;
+    addFavorite(movieStore.movie);
   };
 
   removeFavoriteHandler = () => {
-    const { removeFavorite, getMovie } = movieStore;
-    const movie = getMovie();
-    removeFavorite(movie.id);
+    const { id } = this.props;
+    const { removeFavorite } = movieStore;
+    removeFavorite(id);
   };
 
   getCategoryFilmString = genres => {
@@ -36,15 +38,16 @@ class MovieDetails extends React.Component {
   };
 
   render() {
-    const { isFavorite } = this.props;
-    const { movieLoading } = movieStore.loading;
-    const movie = movieStore.getMovie();
+    const { id } = this.props;
+    const isFavorite = movieStore.isFavorite(id);
+    const { loading } = movieStore;
+    const movie = toJS(movieStore.movie);
     const bgPoster = {
       backgroundImage: ` linear-gradient(to bottom, rgba(255, 255, 255,0.1), rgba(0, 0, 0,0.9) 95% )
             ,url(http://image.tmdb.org/t/p/w500${movie && movie.backdropPath}`
     };
 
-    if (movieLoading) {
+    if (loading) {
       return <Spinner />;
     }
 
@@ -60,7 +63,7 @@ class MovieDetails extends React.Component {
               <h1>{movie.title}</h1>
               <div className="about">
                 <span>{moment(movie.releaseDate, "YYYY/MM/DD").year()} </span>
-                <span>GENRES</span>
+                <span>{this.getCategoryFilmString(movie.genres)}</span>
               </div>
             </div>
             <div className="container">
@@ -106,8 +109,7 @@ class MovieDetails extends React.Component {
 }
 
 MovieDetails.propTypes = {
-  id: PropTypes.number.isRequired,
-  isFavorite: PropTypes.bool.isRequired
+  id: PropTypes.number.isRequired
 };
 
 export default MovieDetails;

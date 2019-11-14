@@ -19,8 +19,7 @@ const MovieCard = ({ poster, id, title, rate, type, year }) => {
       <div className="movie__desc d-flex align-items-center justify-content-around">
         <div className="movie__about">
           <h2 className="movie__name">{title}</h2>
-          <span className="movie__type" />
-          {genresString}
+          <span className="movie__type">{genresString}</span>
         </div>
         <div className="movie__rate">{rate}</div>
       </div>

@@ -26,7 +26,8 @@ class GenresStore {
 decorate(GenresStore, {
   genres: observable,
   loading: observable,
-  fetchGenres: action.bound
+  fetchGenres: action.bound,
+  getGenres: action
 });
 const genresStore = new GenresStore();
 export default genresStore;

@@ -8,15 +8,20 @@ import NowPlayingPage from "./components/pages/now-playing-page";
 import MoviePage from "./components/pages/movie-page";
 import FavoriteMoviePage from "./components/pages/favorite-movie-page";
 import Page404 from "./components/pages/page-404";
+import genresStore from "./store/mobx-store-genres";
+import Spinner from "./components/spinner";
 
 @observer
 class App extends React.Component {
   componentDidMount() {
-    const { genresStore } = this.props;
     genresStore.fetchGenres();
   }
 
   render() {
+    const { loading } = genresStore;
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <Router>
         <div className="app">

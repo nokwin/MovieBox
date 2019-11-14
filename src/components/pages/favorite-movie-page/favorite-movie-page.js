@@ -1,25 +1,12 @@
 import React from "react";
 import ReactRouterPropTypes from "react-router-prop-types";
-
+import { toJS } from "mobx";
 import "./favorite-movie-page.css";
 import MovieGrid from "../../movie-grid";
-import Pagination from "../../pagination";
 import AppHeader from "../../app-header";
 import movieStore from "../../../store/mobx-store-movie";
-class FavoriteMoviePage extends React.Component {
-  /*  getFav(pageNumber) {
-    const  favorites=movieStore.getFavorites();
-    const pageSize = 20;
-    const filmsStartCount = pageNumber * pageSize - pageSize;
-    const newFavoriteFilms = [];
-    for (let i = filmsStartCount; i < filmsStartCount + pageSize; i + 1) {
-      if (favorites[i]) {
-        newFavoriteFilms.push(favorites[i]);
-      }
-    }
-    return newFavoriteFilms;
-  }*/
 
+class FavoriteMoviePage extends React.Component {
   changeFavoritePage = e => {
     const { history } = this.props;
     const { selected } = e;
@@ -28,10 +15,7 @@ class FavoriteMoviePage extends React.Component {
   };
 
   render() {
-    const favorites = movieStore.getFavorites();
-    const { match } = this.props;
-    const { page } = match.params;
-    const films = movieStore.getFavorites();
+    const films = toJS(movieStore.favorites);
     return (
       <>
         <AppHeader />
@@ -41,14 +25,6 @@ class FavoriteMoviePage extends React.Component {
         {films && films.length !== 0 ? (
           <>
             <MovieGrid films={films} />
-
-            {favorites.length > 20 && (
-              <Pagination
-                initialPage={page}
-                pageCount={Math.ceil(favorites.length / 20)}
-                changePage={this.changeFavoritePage}
-              />
-            )}
           </>
         ) : (
           <div className="d-flex justify-content-center">
@@ -61,8 +37,7 @@ class FavoriteMoviePage extends React.Component {
 }
 
 FavoriteMoviePage.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  match: ReactRouterPropTypes.match.isRequired
+  history: ReactRouterPropTypes.history.isRequired
 };
 
 export default FavoriteMoviePage;

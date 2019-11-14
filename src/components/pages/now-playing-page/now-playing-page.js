@@ -1,11 +1,10 @@
 import React from "react";
 
 import "./now-playing-page.css";
-import PropTypes from "prop-types";
 import ReactRouterPropTypes from "react-router-prop-types";
 import { observer } from "mobx-react";
+import { toJS } from "mobx";
 import filmsStore from "../../../store/mobx-store-films";
-
 import MovieGrid from "../../movie-grid/movie-grid";
 import Spinner from "../../spinner";
 import Pagination from "../../pagination";
@@ -29,7 +28,7 @@ class NowPlayingPage extends React.Component {
 
   render() {
     const { match } = this.props;
-    const { loading } = filmsStore;
+    const { loading, films } = filmsStore;
     const { page } = match.params;
     if (loading) {
       return <Spinner />;
@@ -37,9 +36,10 @@ class NowPlayingPage extends React.Component {
     return (
       <>
         <AppHeader />
-        <MovieGrid films={filmsStore.getFilms()} />
+        <MovieGrid films={toJS(films.results)} />
         <Pagination
           initialPage={Number(page) || 1}
+          pageCount={toJS(films.total_pages)}
           changePage={this.changePage}
         />
       </>
@@ -48,21 +48,8 @@ class NowPlayingPage extends React.Component {
 }
 
 NowPlayingPage.propTypes = {
-  films: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      overview: PropTypes.string.isRequired,
-      releaseDate: PropTypes.string.isRequired
-    })
-  ),
-  pages: PropTypes.number,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired
-};
-NowPlayingPage.defaultProps = {
-  pages: 1,
-  films: []
 };
 
 export default NowPlayingPage;

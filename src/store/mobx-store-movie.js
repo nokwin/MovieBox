@@ -20,23 +20,14 @@ class MovieStore {
     }
   };
 
-  getMovie = () => {
-    return toJS(this.movie);
-  };
-
-  getFavorites = () => {
-    return toJS(this.favorites);
-  };
+  isFavorite = id => this.favorites.some(item => item.id === id);
 
   addFavorite = movie => {
-    console.log("movie", movie);
-    console.log("favorites", this.getFavorites());
     this.favorites.unshift(movie);
-    console.log("favorites", this.getFavorites());
   };
 
   removeFavorite = id => {
-    this.favorites.filter(item => item.id !== id);
+    this.favorites = this.favorites.filter(item => item.id !== id);
   };
 }
 
@@ -45,8 +36,6 @@ decorate(MovieStore, {
   favorites: observable,
   loading: observable,
   fetchMovie: action,
-  getMovie: action,
-  getFavorites: action,
   addFavorite: action,
   removeFavorite: action
 });

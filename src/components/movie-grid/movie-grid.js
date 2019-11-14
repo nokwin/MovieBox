@@ -5,7 +5,6 @@ import { observer } from "mobx-react";
 
 import "./movie-grid.css";
 import MovieCard from "../movie-card";
-import GenresStore from "../../store/mobx-store-genres";
 
 @observer
 class MovieGrid extends React.Component {
@@ -16,25 +15,21 @@ class MovieGrid extends React.Component {
       posterPath,
       id,
       releaseDate,
-      genreIds = 0
+      genreIds = 0,
+      genres = []
     } = movie;
-    const genres = GenresStore.getGenres();
-    const { loading } = GenresStore;
-    if (!loading) {
-      return (
-        <MovieCard
-          title={title}
-          rate={voteAverage}
-          poster={posterPath}
-          id={id}
-          type={genreIds || genres.map(genre => genre.id)}
-          year={releaseDate}
-          key={id}
-        />
-      );
-    } else {
-      return null;
-    }
+
+    return (
+      <MovieCard
+        title={title}
+        rate={voteAverage}
+        poster={posterPath}
+        id={id}
+        type={genreIds || genres.map(genre => genre.id)}
+        year={releaseDate}
+        key={id}
+      />
+    );
   };
 
   render() {
