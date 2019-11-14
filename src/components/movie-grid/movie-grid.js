@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import { observable, decorate, action, toJS } from "mobx";
 
 import "./movie-grid.css";
 import MovieCard from "../movie-card";
@@ -33,6 +32,8 @@ class MovieGrid extends React.Component {
           key={id}
         />
       );
+    } else {
+      return null;
     }
   };
 

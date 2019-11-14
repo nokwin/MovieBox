@@ -3,7 +3,6 @@ import React from "react";
 import "./now-playing-page.css";
 import PropTypes from "prop-types";
 import ReactRouterPropTypes from "react-router-prop-types";
-import { observable, configure, action, decorate } from "mobx";
 import { observer } from "mobx-react";
 import filmsStore from "../../../store/mobx-store-films";
 

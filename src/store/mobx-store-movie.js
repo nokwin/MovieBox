@@ -5,6 +5,8 @@ import instance from "../utils/axios-config";
 class MovieStore {
   movie = null;
 
+  favorites = [];
+
   loading = true;
 
   fetchMovie = async id => {
@@ -21,12 +23,32 @@ class MovieStore {
   getMovie = () => {
     return toJS(this.movie);
   };
+
+  getFavorites = () => {
+    return toJS(this.favorites);
+  };
+
+  addFavorite = movie => {
+    console.log("movie", movie);
+    console.log("favorites", this.getFavorites());
+    this.favorites.unshift(movie);
+    console.log("favorites", this.getFavorites());
+  };
+
+  removeFavorite = id => {
+    this.favorites.filter(item => item.id !== id);
+  };
 }
 
 decorate(MovieStore, {
   movie: observable,
+  favorites: observable,
   loading: observable,
-  fetchMovie: action.bound
+  fetchMovie: action,
+  getMovie: action,
+  getFavorites: action,
+  addFavorite: action,
+  removeFavorite: action
 });
 const movieStore = new MovieStore();
 export default movieStore;

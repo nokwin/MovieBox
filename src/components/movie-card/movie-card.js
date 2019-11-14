@@ -9,7 +9,6 @@ import GenresStore from "../../store/mobx-store-genres";
 const MovieCard = ({ poster, id, title, rate, type, year }) => {
   const movieYear = moment(year, "YYYY/MM/DD").year();
   const genres = GenresStore.getGenres();
-
   const movieGenres = genres.filter(item => type.includes(item.id));
   const genresNames = movieGenres.map(item => item.name);
   const genresString = genresNames.join(", ");

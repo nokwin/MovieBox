@@ -1,9 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import PropTypes from "prop-types";
-
-import { observable, configure, action, decorate, toJS } from "mobx";
 import { observer } from "mobx-react";
 
 import "./App.css";
@@ -21,8 +17,6 @@ class App extends React.Component {
   }
 
   render() {
-    const loading = toJS(this.props.genresStore.loading);
-    console.log("loading", loading);
     return (
       <Router>
         <div className="app">

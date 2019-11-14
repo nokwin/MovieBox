@@ -8,7 +8,9 @@ import "./movie-details.css";
 import defaultImg from "../movie-card/default_img.png";
 import Spinner from "../spinner";
 import movieStore from "../../store/mobx-store-movie";
+import { observer } from "mobx-react";
 
+@observer
 class MovieDetails extends React.Component {
   componentDidMount() {
     const { id } = this.props;
@@ -16,13 +18,14 @@ class MovieDetails extends React.Component {
   }
 
   addFavoriteHandler = () => {
-    const { addFav, movie } = this.props;
-    addFav(movie);
+    const { addFavorite, getMovie } = movieStore;
+    addFavorite(getMovie());
   };
 
   removeFavoriteHandler = () => {
-    const { removeFav, movie } = this.props;
-    removeFav(movie.id);
+    const { removeFavorite, getMovie } = movieStore;
+    const movie = getMovie();
+    removeFavorite(movie.id);
   };
 
   getCategoryFilmString = genres => {
@@ -36,7 +39,6 @@ class MovieDetails extends React.Component {
     const { isFavorite } = this.props;
     const { movieLoading } = movieStore.loading;
     const movie = movieStore.getMovie();
-    console.log("MOVIE", movie);
     const bgPoster = {
       backgroundImage: ` linear-gradient(to bottom, rgba(255, 255, 255,0.1), rgba(0, 0, 0,0.9) 95% )
             ,url(http://image.tmdb.org/t/p/w500${movie && movie.backdropPath}`
@@ -105,24 +107,7 @@ class MovieDetails extends React.Component {
 
 MovieDetails.propTypes = {
   id: PropTypes.number.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
-  getMovie: PropTypes.func.isRequired,
-  addFav: PropTypes.func.isRequired,
-  removeFav: PropTypes.func.isRequired,
-  movie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    overview: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
-    posterPath: PropTypes.string.isRequired,
-    genres: PropTypes.array.isRequired,
-    backdropPath: PropTypes.string.isRequired
-  }),
-  loading: PropTypes.bool
-};
-MovieDetails.defaultProps = {
-  loading: true,
-  movie: null
+  isFavorite: PropTypes.bool.isRequired
 };
 
 export default MovieDetails;

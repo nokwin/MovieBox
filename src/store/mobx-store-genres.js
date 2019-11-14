@@ -9,8 +9,8 @@ class GenresStore {
 
   fetchGenres = async () => {
     try {
-      const genres = await instance.get(`genre/movie/list`);
-      this.genres = genres.data;
+      const payload = await instance.get(`genre/movie/list`);
+      this.genres = payload.data.genres;
       this.loading = false;
       return toJS(this.genres);
     } catch (e) {
