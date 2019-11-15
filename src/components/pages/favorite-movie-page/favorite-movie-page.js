@@ -40,10 +40,10 @@ class FavoriteMoviePage extends React.Component {
   }
 }
 
-FavoriteMoviePage.propTypes = {
+FavoriteMoviePage.wrappedComponent.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   movieStore: PropTypes.shape({
-    movie: PropTypes.object.isRequired,
+    movie: PropTypes.object,
     favorites: PropTypes.array.isRequired,
     isFavorite: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,

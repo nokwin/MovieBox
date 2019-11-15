@@ -50,7 +50,7 @@ class NowPlayingPage extends React.Component {
 
 NowPlayingPage.wrappedComponent.propTypes = {
   filmsStore: PropTypes.shape({
-    films: PropTypes.array,
+    films: PropTypes.object,
     loading: PropTypes.bool.isRequired,
     fetchFilms: PropTypes.func.isRequired
   }).isRequired,
