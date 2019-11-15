@@ -9,7 +9,7 @@ import MovieCardImage from "./movie-card-image";
 const MovieCard = inject("genresStore")(
   observer(({ poster, id, title, rate, type, year, genresStore }) => {
     const movieYear = moment(year, "YYYY/MM/DD").year();
-    const genres = genresStore.getGenres();
+    const { genres } = genresStore;
     const movieGenres = genres.filter(item => type.includes(item.id));
     const genresNames = movieGenres.map(item => item.name);
     const genresString = genresNames.join(", ");

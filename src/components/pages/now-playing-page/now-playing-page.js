@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import "./now-playing-page.css";
 import ReactRouterPropTypes from "react-router-prop-types";
 import { observer, inject } from "mobx-react";
-import { toJS } from "mobx";
 import MovieGrid from "../../movie-grid/movie-grid";
 import Spinner from "../../spinner";
 import Pagination from "../../pagination";
@@ -37,10 +36,10 @@ class NowPlayingPage extends React.Component {
     return (
       <>
         <AppHeader />
-        <MovieGrid films={toJS(films.results)} />
+        <MovieGrid films={films.results} />
         <Pagination
           initialPage={Number(page) || 1}
-          pageCount={toJS(films.total_pages)}
+          pageCount={films.total_pages}
           changePage={this.changePage}
         />
       </>

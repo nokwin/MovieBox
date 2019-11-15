@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { toJS } from "mobx";
 
 import "./movie-details.css";
 import { observer, inject } from "mobx-react";
@@ -42,7 +41,7 @@ class MovieDetails extends React.Component {
     const { id, movieStore } = this.props;
     const { loading } = movieStore;
     const isFavorite = movieStore.isFavorite(id);
-    const movie = toJS(movieStore.movie);
+    const { movie } = movieStore;
     const bgPoster = {
       backgroundImage: ` linear-gradient(to bottom, rgba(255, 255, 255,0.1), rgba(0, 0, 0,0.9) 95% )
             ,url(http://image.tmdb.org/t/p/w500${movie && movie.backdropPath}`

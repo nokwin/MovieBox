@@ -11,7 +11,6 @@
       "legacyDecorators": true
     }
   },
-
   "plugins": ["jsx-a11y", "prettier", "only-warn"],
 
   "rules": {

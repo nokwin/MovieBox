@@ -1,4 +1,4 @@
-import { observable, decorate, action, toJS } from "mobx";
+import { observable, decorate, action } from "mobx";
 import camelcaseKeys from "camelcase-keys";
 import instance from "../utils/axios-config";
 
@@ -14,7 +14,7 @@ class MovieStore {
       const movie = await instance.get(`movie/${id}`);
       this.movie = camelcaseKeys(movie.data);
       this.loading = false;
-      return toJS(this.movie);
+      return this.movie;
     } catch (e) {
       return e;
     }
@@ -39,5 +39,4 @@ decorate(MovieStore, {
   addFavorite: action,
   removeFavorite: action
 });
-/* const movieStore = new MovieStore(); */
 export default MovieStore;

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactRouterPropTypes from "react-router-prop-types";
 import PropTypes from "prop-types";
-import { toJS } from "mobx";
 import { observer, inject } from "mobx-react";
 import "./favorite-movie-page.css";
 import MovieGrid from "../../movie-grid";
@@ -19,7 +18,7 @@ class FavoriteMoviePage extends React.Component {
 
   render() {
     const { movieStore } = this.props;
-    const films = toJS(movieStore.favorites);
+    const films = movieStore.favorites;
     return (
       <>
         <AppHeader />

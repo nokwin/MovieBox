@@ -1,4 +1,4 @@
-import { observable, decorate, action, toJS } from "mobx";
+import { observable, decorate, action } from "mobx";
 import camelcaseKeys from "camelcase-keys";
 import instance from "../utils/axios-config";
 
@@ -16,7 +16,7 @@ class FilmsStore {
       this.films = films.data;
       this.results = films.data.results;
       this.loading = false;
-      return toJS(this.films);
+      return this.films;
     } catch (e) {
       return e;
     }
@@ -27,5 +27,4 @@ decorate(FilmsStore, {
   loading: observable,
   fetchFilms: action
 });
-/* const filmsStore = new FilmsStore();  */
 export default FilmsStore;
