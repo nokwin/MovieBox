@@ -1,11 +1,14 @@
 import React from "react";
 import ReactRouterPropTypes from "react-router-prop-types";
+import PropTypes from "prop-types";
 import { toJS } from "mobx";
+import { observer, inject } from "mobx-react";
 import "./favorite-movie-page.css";
 import MovieGrid from "../../movie-grid";
 import AppHeader from "../../app-header";
-import movieStore from "../../../store/mobx-store-movie";
 
+@inject("movieStore")
+@observer
 class FavoriteMoviePage extends React.Component {
   changeFavoritePage = e => {
     const { history } = this.props;
@@ -15,6 +18,7 @@ class FavoriteMoviePage extends React.Component {
   };
 
   render() {
+    const { movieStore } = this.props;
     const films = toJS(movieStore.favorites);
     return (
       <>
@@ -37,7 +41,16 @@ class FavoriteMoviePage extends React.Component {
 }
 
 FavoriteMoviePage.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired
+  history: ReactRouterPropTypes.history.isRequired,
+  movieStore: PropTypes.shape({
+    movie: PropTypes.object.isRequired,
+    favorites: PropTypes.array.isRequired,
+    isFavorite: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    fetchMovie: PropTypes.func.isRequired,
+    addFavorite: PropTypes.func.isRequired,
+    removeFavorite: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default FavoriteMoviePage;

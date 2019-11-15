@@ -6,26 +6,27 @@ import moment from "moment";
 import { toJS } from "mobx";
 
 import "./movie-details.css";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import defaultImg from "../movie-card/default_img.png";
 import Spinner from "../spinner";
-import movieStore from "../../store/mobx-store-movie";
 
+@inject("movieStore")
 @observer
 class MovieDetails extends React.Component {
   componentDidMount() {
+    const { id, movieStore } = this.props;
     movieStore.loading = true;
-    const { id } = this.props;
     movieStore.fetchMovie(id);
   }
 
   addFavoriteHandler = () => {
-    const { addFavorite } = movieStore;
-    addFavorite(movieStore.movie);
+    const { movieStore } = this.props;
+    const { addFavorite, movie } = movieStore;
+    addFavorite(movie);
   };
 
   removeFavoriteHandler = () => {
-    const { id } = this.props;
+    const { id, movieStore } = this.props;
     const { removeFavorite } = movieStore;
     removeFavorite(id);
   };
@@ -38,9 +39,9 @@ class MovieDetails extends React.Component {
   };
 
   render() {
-    const { id } = this.props;
-    const isFavorite = movieStore.isFavorite(id);
+    const { id, movieStore } = this.props;
     const { loading } = movieStore;
+    const isFavorite = movieStore.isFavorite(id);
     const movie = toJS(movieStore.movie);
     const bgPoster = {
       backgroundImage: ` linear-gradient(to bottom, rgba(255, 255, 255,0.1), rgba(0, 0, 0,0.9) 95% )
@@ -109,7 +110,16 @@ class MovieDetails extends React.Component {
 }
 
 MovieDetails.propTypes = {
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  movieStore: PropTypes.shape({
+    movie: PropTypes.object.isRequired,
+    favorites: PropTypes.array.isRequired,
+    isFavorite: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    fetchMovie: PropTypes.func.isRequired,
+    addFavorite: PropTypes.func.isRequired,
+    removeFavorite: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default MovieDetails;

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
+import PropTypes from "prop-types";
 
 import "./App.css";
 import AppFooter from "./components/app-footer";
@@ -8,18 +9,19 @@ import NowPlayingPage from "./components/pages/now-playing-page";
 import MoviePage from "./components/pages/movie-page";
 import FavoriteMoviePage from "./components/pages/favorite-movie-page";
 import Page404 from "./components/pages/page-404";
-import genresStore from "./store/mobx-store-genres";
 import Spinner from "./components/spinner";
 
+@inject("genresStore")
 @observer
 class App extends React.Component {
   componentDidMount() {
+    const { genresStore } = this.props;
     genresStore.fetchGenres();
   }
 
   render() {
-    const { loading } = genresStore;
-    if (loading) {
+    const { genresStore } = this.props;
+    if (genresStore.loading) {
       return <Spinner />;
     }
     return (
@@ -38,5 +40,12 @@ class App extends React.Component {
     );
   }
 }
+App.propTypes = {
+  genresStore: PropTypes.shape({
+    genres: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    fetchGenres: PropTypes.func.isRequired
+  }).isRequired
+};
 
 export default App;

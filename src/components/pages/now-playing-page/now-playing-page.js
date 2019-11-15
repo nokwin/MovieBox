@@ -1,25 +1,26 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import "./now-playing-page.css";
 import ReactRouterPropTypes from "react-router-prop-types";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { toJS } from "mobx";
-import filmsStore from "../../../store/mobx-store-films";
 import MovieGrid from "../../movie-grid/movie-grid";
 import Spinner from "../../spinner";
 import Pagination from "../../pagination";
 import AppHeader from "../../app-header";
 
+@inject("filmsStore")
 @observer
 class NowPlayingPage extends React.Component {
   componentDidMount() {
-    const { match } = this.props;
+    const { match, filmsStore } = this.props;
     const { page } = match.params;
     filmsStore.fetchFilms(page);
   }
 
   changePage = e => {
-    const { history } = this.props;
+    const { history, filmsStore } = this.props;
     const { selected } = e;
     const page = selected + 1;
     history.push(`/page/${page}`);
@@ -27,7 +28,7 @@ class NowPlayingPage extends React.Component {
   };
 
   render() {
-    const { match } = this.props;
+    const { match, filmsStore } = this.props;
     const { loading, films } = filmsStore;
     const { page } = match.params;
     if (loading) {
@@ -48,6 +49,11 @@ class NowPlayingPage extends React.Component {
 }
 
 NowPlayingPage.propTypes = {
+  filmsStore: PropTypes.shape({
+    films: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    fetchFilms: PropTypes.func.isRequired
+  }).isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired
 };

@@ -39,5 +39,5 @@ decorate(MovieStore, {
   addFavorite: action,
   removeFavorite: action
 });
-const movieStore = new MovieStore();
-export default movieStore;
+/* const movieStore = new MovieStore(); */
+export default MovieStore;

@@ -29,5 +29,5 @@ decorate(GenresStore, {
   fetchGenres: action.bound,
   getGenres: action
 });
-const genresStore = new GenresStore();
-export default genresStore;
+/* const genresStore = new GenresStore(); */
+export default GenresStore;

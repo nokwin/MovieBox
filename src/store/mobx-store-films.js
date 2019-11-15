@@ -27,5 +27,5 @@ decorate(FilmsStore, {
   loading: observable,
   fetchFilms: action
 });
-const filmsStore = new FilmsStore();
-export default filmsStore;
+/* const filmsStore = new FilmsStore();  */
+export default FilmsStore;
