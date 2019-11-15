@@ -40,9 +40,9 @@ class App extends React.Component {
     );
   }
 }
-App.propTypes = {
+App.wrappedComponent.propTypes = {
   genresStore: PropTypes.shape({
-    genres: PropTypes.array.isRequired,
+    genres: PropTypes.array,
     loading: PropTypes.bool.isRequired,
     fetchGenres: PropTypes.func.isRequired
   }).isRequired

@@ -109,10 +109,10 @@ class MovieDetails extends React.Component {
   }
 }
 
-MovieDetails.propTypes = {
+MovieDetails.wrappedComponent.propTypes = {
   id: PropTypes.number.isRequired,
   movieStore: PropTypes.shape({
-    movie: PropTypes.object.isRequired,
+    movie: PropTypes.object,
     favorites: PropTypes.array.isRequired,
     isFavorite: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
