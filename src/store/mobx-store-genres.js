@@ -1,28 +1,23 @@
-import { observable, decorate, action } from "mobx";
+import { observable, action } from "mobx";
 
 import instance from "../utils/axios-config";
 
 class GenresStore {
+  @observable
   genres = null;
 
+  @observable
   loading = true;
 
+  @action
   fetchGenres = async () => {
     try {
       const payload = await instance.get(`genre/movie/list`);
       this.genres = payload.data.genres;
+    } finally {
       this.loading = false;
-      return this.genres;
-    } catch (e) {
-      return e;
     }
   };
 }
-
-decorate(GenresStore, {
-  genres: observable,
-  loading: observable,
-  fetchGenres: action.bound
-});
 
 export default GenresStore;
