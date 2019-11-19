@@ -6,7 +6,12 @@
 /.idea
 /.vscode
 .pnp.js
-
+/https://www.frontendtyped.com/2019/03/31/react-ts.html
+/https://alligator.io/react/typescript-with-react/
+https://habr.com/ru/post/334572/
+https://blog.bitsrc.io/why-and-how-use-typescript-in-your-react-app-60e8987be8de
+https://medium.com/@ryoldash/customize-webpack-config-of-react-app-created-with-create-react-app-7a78c7849edc
+https://codeburst.io/https-medium-com-chidumennamdi-how-to-setup-a-react-js-typescript-project-using-create-react-app-4ca1fcc93e4b
 # api keys
 .env
 # testing

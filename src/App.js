@@ -15,6 +15,7 @@ import Spinner from "./components/spinner";
 @observer
 class App extends React.Component {
   componentDidMount() {
+    // @ts-ignore
     const { genresStore } = this.props;
     genresStore.fetchGenres();
   }
