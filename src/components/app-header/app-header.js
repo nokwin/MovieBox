@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// @ts-ignore
 import { Link, withRouter } from "react-router-dom";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import cn from "classnames";

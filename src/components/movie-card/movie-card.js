@@ -4,7 +4,7 @@ import moment from "moment";
 import { inject, observer } from "mobx-react";
 
 import "./movie-card.css";
-import MovieCardImage from "./movie-card-image.tsx";
+import MovieCardImage from "./movie-card-image.js";
 
 const MovieCard = inject("genresStore")(
   observer(({ poster, id, title, rate, type, year, genresStore }) => {

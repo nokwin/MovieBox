@@ -4,7 +4,7 @@ import { observer, inject } from "mobx-react";
 import PropTypes from "prop-types";
 
 import "./App.css";
-import AppFooter from "./components/app-footer";
+import AppFooter from "./components/app-footer/index.ts";
 import NowPlayingPage from "./components/pages/now-playing-page";
 import MoviePage from "./components/pages/movie-page";
 import FavoriteMoviePage from "./components/pages/favorite-movie-page";
